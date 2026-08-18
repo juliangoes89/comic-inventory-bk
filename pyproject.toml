@@ -15,3 +15,6 @@ classmethod-decorators = []
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[tool.bandit]
+exclude_dirs = [".venv", "venv", "__pycache__"]

@@ -42,6 +42,36 @@ La configuración actual de Ruff en `pyproject.toml` está enfocada en calidad y
 | Formato de comillas | `double` | Se usa comillas dobles al formatear. |
 | Estilo de indentación | `space` | Se usa indentación con espacios. |
 
+## Análisis de seguridad
+
+El proyecto incluye dos herramientas de análisis que solo generan informes y no aplican correcciones automáticas.
+
+### Vulnerabilidades de dependencias
+
+`pip-audit` consulta la base de vulnerabilidades conocida para las dependencias de producción definidas en `requirements.txt` y muestra el paquete, la versión afectada y las vulnerabilidades detectadas.
+
+```powershell
+.\.venv\Scripts\python.exe -m pip_audit -r requirements.txt --desc
+```
+
+El comando termina con un código de error si encuentra vulnerabilidades. No modifica `requirements.txt`, el entorno virtual ni actualiza paquetes.
+
+### Análisis estático de código
+
+`bandit` revisa patrones de seguridad habituales en Python, como ejecución de comandos, uso inseguro de funciones de evaluación, deserialización y configuración criptográfica. La configuración en `pyproject.toml` excluye los entornos virtuales y archivos compilados.
+
+```powershell
+.\.venv\Scripts\python.exe -m bandit -c pyproject.toml -r app
+```
+
+Para guardar un informe JSON para revisarlo o consumirlo en integración continua:
+
+```powershell
+.\.venv\Scripts\python.exe -m bandit -c pyproject.toml -r app -f json -o bandit-report.json
+```
+
+`bandit-report.json` contiene resultados generados; no se debe versionar. Ningún comando de Bandit modifica el código.
+
 ## Ejecución
 
 Si el proyecto fue recién clonado, crea el entorno virtual e instala las dependencias:
@@ -49,6 +79,7 @@ Si el proyecto fue recién clonado, crea el entorno virtual e instala las depend
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 ```
 
 Desde la raíz del proyecto, ejecuta:
