@@ -1,0 +1,17 @@
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+# E/W: pycodestyle, F: pyflakes, N: PEP8 naming, I: import sorting, B: bugbear, UP: pyupgrade
+select = ["E", "W", "F", "N", "I", "B", "UP"]
+# B008: Depends(...) in defaults is the standard FastAPI dependency-injection pattern
+ignore = ["B008"]
+
+[tool.ruff.lint.pep8-naming]
+# DB models use lowercase attribute names matching SQL columns (titulo, id_editorial, etc.)
+classmethod-decorators = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
