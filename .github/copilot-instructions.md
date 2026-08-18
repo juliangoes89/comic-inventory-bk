@@ -1,0 +1,16 @@
+# Instrucciones para Copilot — comic-inventory-bk
+
+API en Python (FastAPI + SQLAlchemy). Antes de dar por terminada cualquier tarea de código, ejecuta desde la raíz del proyecto:
+
+```powershell
+.\.venv\Scripts\python.exe -m ruff check .
+.\.venv\Scripts\python.exe -m bandit -c pyproject.toml -r app
+.\.venv\Scripts\python.exe -m pip_audit -r requirements.txt --desc
+```
+
+- `ruff check .` valida estilo y calidad según `pyproject.toml`. No ejecutes `ruff check . --fix` ni `ruff format .` en código de seguridad o lógica de negocio sin revisión humana previa.
+- `bandit` analiza patrones de seguridad en `app`. No añadas `# nosec` ni excluyas reglas de `[tool.bandit]` en `pyproject.toml` para silenciar hallazgos; corrige el patrón o justifica la excepción en el mismo commit.
+- `pip-audit` audita `requirements.txt` contra vulnerabilidades conocidas. Es solo informativo: no actualices versiones de dependencias para "resolver" una vulnerabilidad sin que una persona lo decida y lo pruebe.
+- Si añades una dependencia nueva, agrégala con versión fijada (`==`) y vuelve a ejecutar `pip-audit`.
+
+Consulta [AGENTS.md](../AGENTS.md) y [README.md](../README.md) para más detalle.
