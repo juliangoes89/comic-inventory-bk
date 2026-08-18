@@ -42,6 +42,18 @@ La configuración actual de Ruff en `pyproject.toml` está enfocada en calidad y
 | Formato de comillas | `double` | Se usa comillas dobles al formatear. |
 | Estilo de indentación | `space` | Se usa indentación con espacios. |
 
+### Detalle de los códigos de lint seleccionados
+
+| Código | Nombre | Qué revisa |
+| --- | --- | --- |
+| `E` | pycodestyle (errores) | Errores de estilo según PEP 8: espaciado, indentación, longitud de línea, etc. |
+| `W` | pycodestyle (warnings) | Advertencias de estilo PEP 8, como espacios en blanco al final de línea o saltos de línea inconsistentes. |
+| `F` | Pyflakes | Errores lógicos: imports y variables sin usar, variables no definidas, redefiniciones. |
+| `N` | pep8-naming | Convenciones de nombres PEP 8 para clases, funciones, variables y argumentos. |
+| `I` | isort | Orden y agrupación de imports (estándar, terceros, locales). |
+| `B` | flake8-bugbear | Errores comunes y antipatrones de Python que suelen causar bugs (mutables por defecto, excepciones genéricas, etc.). |
+| `UP` | pyupgrade | Sugerencias para modernizar la sintaxis a la versión de Python objetivo (`py313`), como reemplazar `typing.List` por `list`. |
+
 ## Análisis de seguridad
 
 El proyecto incluye dos herramientas de análisis que solo generan informes y no aplican correcciones automáticas.
