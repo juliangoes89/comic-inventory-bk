@@ -84,15 +84,42 @@ Para guardar un informe JSON para revisarlo o consumirlo en integración continu
 
 `bandit-report.json` contiene resultados generados; no se debe versionar. Ningún comando de Bandit modifica el código.
 
-## Ejecución
+## Pruebas unitarias
 
-Si el proyecto fue recién clonado, crea el entorno virtual e instala las dependencias:
+El proyecto incluye una suite mínima de pruebas con `pytest` que valida el estado de salud de la API y que los endpoints de cómics y editoriales devuelven datos reales desde una base de datos SQLite en memoria.
+
+Si el proyecto fue recién clonado, primero crea el entorno virtual e instala las dependencias de desarrollo:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 ```
+
+Para ejecutar todas las pruebas unitarias desde la raíz del proyecto:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
+El comando genera también el reporte de cobertura de `app` en la terminal e indica las líneas que no están cubiertas.
+
+Para generar un reporte HTML navegable:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest --cov-report=html
+```
+
+El reporte se guarda en `htmlcov/index.html`.
+
+Para ejecutar solo un archivo o una prueba concreta:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/test_api.py -q
+.\.venv\Scripts\python.exe -m pytest tests/test_api.py -k health -q
+```
+
+## Ejecución
 
 Desde la raíz del proyecto, ejecuta:
 

@@ -18,3 +18,6 @@ indent-style = "space"
 
 [tool.bandit]
 exclude_dirs = [".venv", "venv", "__pycache__"]
+
+[tool.pytest.ini_options]
+addopts = ["--cov=app", "--cov-report=term-missing"]
