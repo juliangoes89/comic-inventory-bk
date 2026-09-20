@@ -20,4 +20,4 @@ indent-style = "space"
 exclude_dirs = [".venv", "venv", "__pycache__"]
 
 [tool.pytest.ini_options]
-addopts = ["--cov=app", "--cov-report=term-missing"]
+addopts = ["--cov=app", "--cov-report=term-missing", "--cov-report=xml:coverage.xml"]
