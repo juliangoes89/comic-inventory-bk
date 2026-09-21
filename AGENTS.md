@@ -17,3 +17,9 @@ Antes de dar por terminada cualquier tarea de código en este proyecto, ejecuta 
 - `pip-audit` audita `requirements.txt` contra vulnerabilidades conocidas. Es solo informativo: no actualices versiones de dependencias para "resolver" una vulnerabilidad sin que una persona lo decida y lo pruebe.
 - Si añades una dependencia nueva, agrégala con versión fijada (`==`) en `requirements.txt` o `requirements-dev.txt` y vuelve a ejecutar `pip-audit`.
 - Mantén la configuración existente de Ruff y Bandit en `pyproject.toml`; no cambies `line-length`, `target-version` ni las reglas seleccionadas salvo que se pida explícitamente.
+
+## Pruebas unitarias y cobertura
+
+- Toda nueva lógica o corrección debe incluir o actualizar pruebas unitarias relevantes.
+- Antes de dar por terminada una tarea, ejecuta `.\.venv\Scripts\python.exe -m pytest --cov=app --cov-fail-under=80 -q` y verifica que la cobertura global sea como mínimo del 80%.
+- Si la cobertura queda por debajo del 80%, añade las pruebas necesarias; no reduzcas el umbral ni excluyas código para ocultar la falta de cobertura.
