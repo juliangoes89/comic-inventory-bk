@@ -119,6 +119,39 @@ Para ejecutar solo un archivo o una prueba concreta:
 .\.venv\Scripts\python.exe -m pytest tests/test_api.py -k health -q
 ```
 
+## CI/CD
+
+El workflow [.github/workflows/ci.yml](.github/workflows/ci.yml) se ejecuta en cada push a `main` y en cada Pull Request hacia `main`. Cada etapa es un job independiente.
+
+| Job | Qué hace | ¿Bloquea el pipeline? |
+| --- | --- | --- |
+| `lint` | Ruff (`ruff check .`), con anotaciones en el PR | No |
+| `dependency-audit` | `pip-audit` sobre `requirements.txt` | No |
+| `static-analysis` | `bandit` sobre `app` | No |
+| `tests` | `pytest` con cobertura mínima del 80% | Sí |
+| `build` | Compila `app` y verifica que `app.main` se importa (requiere `tests`) | Sí |
+| `deploy` | Despliega a Azure App Service (solo push a `main`; requiere `tests` y `build`) | Sí |
+
+### Secretos y configuración en GitHub
+
+En **Settings → Secrets and variables → Actions**:
+
+| Secreto | Uso |
+| --- | --- |
+| `DATABASE_URL` | Cadena de conexión para `tests` y `build`. Es opcional: si no existe (por ejemplo en PRs desde forks) se usa `sqlite://`. |
+| `AZURE_WEBAPP_PUBLISH_PROFILE` | Contenido del perfil de publicación de la app `comicinventory-bk`. Requiere habilitar **SCM Basic Auth Publishing Credentials** en la app. |
+
+El job `deploy` usa el entorno `production` de GitHub, donde se pueden añadir aprobaciones manuales.
+
+### Configuración en Azure App Service
+
+La app `comicinventory-bk` (Linux, Python 3.13) necesita:
+
+- **Startup Command**: `bash startup.sh`. El script instala el ODBC Driver 18 para SQL Server y arranca `uvicorn app.main:app`.
+- **App settings**: `DATABASE_URL` con la cadena de conexión de Azure SQL y `SCM_DO_BUILD_DURING_DEPLOYMENT=true`.
+
+El paquete desplegado contiene solo `app`, `requirements.txt` y `startup.sh`. Tras el despliegue, la API queda en https://comicinventory-bk-dba3a7d2brhsg2fy.westus3-01.azurewebsites.net (documentación en `/docs`).
+
 ## Ejecución
 
 Desde la raíz del proyecto, ejecuta:
