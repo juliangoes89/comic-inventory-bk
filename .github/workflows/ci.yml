@@ -75,7 +75,8 @@ jobs:
         run: pip install -r requirements.txt -r requirements-dev.txt
       - name: pytest
         env:
-          DATABASE_URL: sqlite://
+          # Los PR desde forks no reciben secretos; se usa SQLite como respaldo
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'sqlite://' }}
         run: python -m pytest -q --cov-fail-under=80
 
   build:
@@ -97,5 +98,5 @@ jobs:
         run: python -m compileall -q app
       - name: Verificar import de la aplicación
         env:
-          DATABASE_URL: sqlite://
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'sqlite://' }}
         run: python -c "import app.main"
