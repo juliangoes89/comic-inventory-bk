@@ -108,7 +108,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://comicinventory-bk.azurewebsites.net
+      url: https://comicinventory-bk-dba3a7d2brhsg2fy.westus3-01.azurewebsites.net
     steps:
       - uses: actions/checkout@v4
       - name: Empaquetar
