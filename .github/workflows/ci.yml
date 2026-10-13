@@ -74,6 +74,8 @@ jobs:
       - name: Instalar dependencias
         run: pip install -r requirements.txt -r requirements-dev.txt
       - name: pytest
+        env:
+          DATABASE_URL: sqlite://
         run: python -m pytest -q --cov-fail-under=80
 
   build:
